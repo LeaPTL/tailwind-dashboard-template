@@ -2,9 +2,11 @@
 
 import * as React from "react"
 import { addDays, format } from "date-fns"
+import { fr } from 'date-fns/locale';
 
 import { cn } from "../lib/utils"
 import { Calendar } from "./ui/calendar"
+
 import {
   Popover,
   PopoverContent,
@@ -15,8 +17,8 @@ export default function DatePickerWithRange({
   className,
 }) {
   const [date, setDate] = React.useState({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
+    from: new Date(),
+    to: addDays(new Date(), 20),
   })
 
   return (
@@ -38,14 +40,14 @@ export default function DatePickerWithRange({
             {date?.from ? (
               date.to ? (
                 <>
-                  {format(date.from, "LLL dd, y")} -{" "}
-                  {format(date.to, "LLL dd, y")}
+                  {format(date.from, "dd LLL y", {locale: fr})} -{" "}
+                  {format(date.to, "dd LLL y", {locale: fr})}
                 </>
               ) : (
-                format(date.from, "LLL dd, y")
+                format(date.from, "dd LLL y, {locale: fr}")
               )
             ) : (
-              <span>Pick a date</span>
+              <span>Choisir une date</span>
             )}
           </button>
         </PopoverTrigger>
@@ -55,6 +57,8 @@ export default function DatePickerWithRange({
             defaultMonth={date?.from}
             selected={date}
             onSelect={setDate}
+            locale={fr}
+            weekStartsOn={1}
           />
         </PopoverContent>
       </Popover>
